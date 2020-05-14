@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
+import javax.annotation.PostConstruct;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,8 +34,6 @@ public class InitializationService {
     private String getStartedButtonURL;
     @Value("${system.base.url}")
     private String baseUrl;
-    @Value("${system.base.privacy}")
-    private String policyUrl;
 
     @Autowired
     private RestTemplate restTemplate;
@@ -54,24 +53,23 @@ public class InitializationService {
         if (refreshMenu) {
             List<MenuAction> actions = new ArrayList<>();
             //add menu items
-            actions.add(MenuAction.createPayloadMenuAction(messagesHolder.getMessage(MessageKey.FROM_START),
+            actions.add(MenuAction.createPayloadMenuAction("From the beginning",
                     Postbacks.INIT));
             ContextMenuSettingRequest request = ContextMenuSettingRequest.getFullRequest(actions);
             restTemplate.postForObject(welcomeMessageUrl + token, request, String.class);
         }
     }
 
-//    @PostConstruct
+    @PostConstruct
     public void init() {
         tryToRefreshWelcomeMessage();
         setMenu();
     }
 
-//    @PostConstruct
+    @PostConstruct
     public void setDomainWhiteList() {
         DomainWhiteList domainWhiteList = DomainWhiteList.createDomainWhiteListing();
         domainWhiteList.addDomain(baseUrl);
-        domainWhiteList.addDomain(policyUrl);
         domainWhiteList.setAddActionType();
         String s = restTemplate.postForObject(WHITELISTING_URL + token, domainWhiteList, String.class);
 

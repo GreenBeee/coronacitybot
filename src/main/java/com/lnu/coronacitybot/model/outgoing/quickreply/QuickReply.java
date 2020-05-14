@@ -1,6 +1,7 @@
 package com.lnu.coronacitybot.model.outgoing.quickreply;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Builder;
 
 public class QuickReply {
 

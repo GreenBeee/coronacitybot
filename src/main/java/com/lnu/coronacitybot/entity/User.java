@@ -30,6 +30,9 @@ public class User {
 	@Column(name = "last_name")
 	private String lastName;
 
+	@Column(name = "is_subscribed")
+	private Boolean isSubscribed;
+
 	@Column(name = "registered_at")
 	@Convert(converter = LocalDateTimeConverter.class)
 	private LocalDateTime registeredAt;
