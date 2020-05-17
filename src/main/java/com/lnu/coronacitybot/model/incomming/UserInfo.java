@@ -2,9 +2,6 @@ package com.lnu.coronacitybot.model.incomming;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-/**
- * Created by Vladislav on 11/23/2016.
- */
 public class UserInfo {
 
     @JsonProperty("id")

@@ -3,6 +3,7 @@ package com.lnu.coronacitybot.service.impl;
 import com.lnu.coronacitybot.dao.UserDAO;
 import com.lnu.coronacitybot.entity.User;
 import com.lnu.coronacitybot.entity.enums.State;
+import com.lnu.coronacitybot.entity.enums.SubscriptionRate;
 import com.lnu.coronacitybot.model.Psid;
 import com.lnu.coronacitybot.model.UserId;
 import com.lnu.coronacitybot.model.incomming.ProfileInfo;
@@ -13,12 +14,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.Optional;
+import java.util.Set;
 
 @Service
 public class UserServiceImpl implements UserService {
-    private static final String MALE = "male";
-    private static final String FEMALE = "female";
-
     @Value("${facebook.profile.url}")
     private String profileUrl;
     @Value("${facebook.token}")
@@ -37,6 +36,7 @@ public class UserServiceImpl implements UserService {
             user = new User();
             user.setChatId(chatId.getId());
             user.setState(State.INITIAL);
+            user.setIsSubscribed(Boolean.FALSE);
             ProfileInfo profileInfo = getProfileInfo(chatId.getId());
             user.setFirstName(profileInfo.getFirstName());
             user.setLastName(profileInfo.getLastName());
@@ -62,5 +62,21 @@ public class UserServiceImpl implements UserService {
 
     public void save(User user) {
         userDAO.save(user);
+    }
+
+    @Override
+    public void setState(User user, String state) {
+        user.setState(state);
+        save(user);
+    }
+
+    @Override
+    public Set<User> getAllUsersWithActiveSubscription() {
+        return userDAO.findAllByIsSubscribed(Boolean.TRUE);
+    }
+
+    @Override
+    public void saveAll(Set<User> allUsersWithActiveSubscription) {
+        userDAO.save(allUsersWithActiveSubscription);
     }
 }

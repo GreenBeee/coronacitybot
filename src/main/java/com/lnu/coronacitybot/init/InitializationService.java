@@ -60,13 +60,13 @@ public class InitializationService {
         }
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void init() {
         tryToRefreshWelcomeMessage();
         setMenu();
     }
 
-    @PostConstruct
+//    @PostConstruct
     public void setDomainWhiteList() {
         DomainWhiteList domainWhiteList = DomainWhiteList.createDomainWhiteListing();
         domainWhiteList.addDomain(baseUrl);

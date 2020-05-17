@@ -5,9 +5,11 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 @Configuration
 @EnableAsync
+@EnableScheduling
 @PropertySource("classpath:custom-${spring.profiles.active}.properties")
 @PropertySource("classpath:messages.properties")
 @PropertySource("classpath:general.properties")

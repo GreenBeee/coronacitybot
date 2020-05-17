@@ -1,6 +1,5 @@
 package com.lnu.coronacitybot.processor.impl;
 
-import com.lnu.coronacitybot.containers.LocationContainer;
 import com.lnu.coronacitybot.containers.PostbackContainer;
 import com.lnu.coronacitybot.containers.TextContainer;
 import com.lnu.coronacitybot.entity.User;
@@ -11,7 +10,6 @@ import com.lnu.coronacitybot.model.incomming.MessageReceived;
 import com.lnu.coronacitybot.model.incomming.Messaging;
 import com.lnu.coronacitybot.model.incomming.Payload;
 import com.lnu.coronacitybot.model.incomming.Referral;
-import com.lnu.coronacitybot.model.outgoing.GeoCoordinates;
 import com.lnu.coronacitybot.model.payment.Payment;
 import com.lnu.coronacitybot.processor.MessagesProcessor;
 import com.lnu.coronacitybot.service.MessagesSender;
@@ -19,7 +17,6 @@ import com.lnu.coronacitybot.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.client.HttpClientErrorException;
@@ -37,7 +34,6 @@ public class MessagesProcessorImpl implements MessagesProcessor {
 
 	private final PostbackContainer postbackContainer;
 	private final TextContainer textContainer;
-	private final LocationContainer locationContainer;
 
 	@Override
 	public void processMessage(MessageReceived message) {
@@ -48,7 +44,6 @@ public class MessagesProcessorImpl implements MessagesProcessor {
 					Optional<String> quickReplyOpt = getQuickReply(messaging);
 					Optional<String> textMessageOpt = getTextMessage(messaging);
 					Optional<String> payloadOpt = getPayload(messaging);
-					Optional<Coordinates> coordinatesOpt = getCoordinates(messaging);
 					Optional<Referral> referral = getReferral(messaging);
 					Optional<Account> account = getAccount(messaging);
 					Optional<Payment> paymentOpt = getPayment(messaging);
@@ -64,11 +59,6 @@ public class MessagesProcessorImpl implements MessagesProcessor {
 
 					if (referral.isPresent()) {
 						//do something with referral
-					}
-					if (coordinatesOpt.isPresent()) {
-						locationContainer.processLocation(new GeoCoordinates(coordinatesOpt.get().getLongitude(),
-								coordinatesOpt.get().getLatitude()), user);
-						return;
 					}
 					if (quickReplyOpt.isPresent()) {
 						postbackContainer.processPostback(quickReplyOpt.get(), user);
