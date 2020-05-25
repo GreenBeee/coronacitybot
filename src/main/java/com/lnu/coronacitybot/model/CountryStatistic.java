@@ -20,7 +20,7 @@ public class CountryStatistic {
 
 	@Override
 	public String toString() {
-		String country = countryName.substring(0, 1).toLowerCase() + countryName.substring(1)
+		String country = countryName.substring(0, 1).toUpperCase() + countryName.substring(1)
 				+ ": " + "total cases: " + cases + "; total deaths: " + death + "; total recovered: " + recovered + ".";
 		return country + (StringUtils.isEmpty(resource) ? "" : " Resource: " + resource);
 	}
