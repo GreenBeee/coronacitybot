@@ -32,7 +32,7 @@ public class CovidStatisticServiceImpl implements CovidStatisticService {
 
 	@Override
 	public CountryStatistic getCountryStatisticFromResource(String country) {
-		return allCountries.get(country);
+		return allCountries.get(country.toLowerCase());
 	}
 
 	@Override
@@ -63,8 +63,8 @@ public class CovidStatisticServiceImpl implements CovidStatisticService {
 		rows.remove(rows.size() - 1);
 		return rows.stream().skip(2).map(x -> {
 			Elements column = x.select("td");
-			return new CountryStatistic(x.getElementsByIndexEquals(1).select("a").get(0).text(),
-					column.get(0).text(), column.get(1).text(), column.get(2).text(),
+			return new CountryStatistic(x.getElementsByIndexEquals(1).select("a").get(0).text().toLowerCase(),
+					column.get(0).text().toLowerCase(), column.get(1).text().toLowerCase(), column.get(2).text().toLowerCase(),
 					null);
 		}).collect(Collectors.toMap(CountryStatistic::getCountryName, x -> x));
 	}

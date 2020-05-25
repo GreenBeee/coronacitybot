@@ -33,10 +33,9 @@ public class StatisticSenderServiceImpl implements StatisticSenderService {
 		Util.sleep(2);
 		List<CountryStatistic> topStatistic = covidStatisticService.getTopStatistic(count);
 		for (int i = 0; i < topStatistic.size(); i++) {
-			messagesSender.sendSimpleMessage(user, (i + 1) + ". " + topStatistic.toString());
+			messagesSender.sendSimpleMessage(user, (i + 1) + ". " + topStatistic.get(i).toString());
 			Util.sleep(2);
 		}
-		defaultHandler.handleMenu(user);
 	}
 
 	@Override
@@ -46,7 +45,6 @@ public class StatisticSenderServiceImpl implements StatisticSenderService {
 		CountryStatistic countryStatistic = covidStatisticService.getCountryStatisticFromResource(country);
 		messagesSender.sendSimpleMessage(user,  countryStatistic.toString());
 		Util.sleep(2);
-		defaultHandler.handleMenu(user);
 	}
 
 	@Override
@@ -60,18 +58,22 @@ public class StatisticSenderServiceImpl implements StatisticSenderService {
 		switch (subscriptionType) {
 			case TOP: {
 				sendUserTopStatistic(user);
+				defaultHandler.handleMenu(user);
 				break;
 			}
 			case COUNTRY: {
 				sendUserCountryStatistic(user, country);
+				defaultHandler.handleMenu(user);
 				break;
 			}
 			case FULL: {
 				sendUserFullStatistic(user, country);
+				defaultHandler.handleMenu(user);
 				break;
 			}
 			default: {
 				System.out.println("User: " + user.getChatId() + " has problems with subscription");
+				defaultHandler.handleDefaultMessage(user);
 			}
 		}
 	}
