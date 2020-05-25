@@ -43,7 +43,7 @@ public class CovidStatisticServiceImpl implements CovidStatisticService {
 	@Override
 	public List<CountryStatistic> getTopStatistic(int count) {
 		return allCountries.values().stream()
-				.sorted(Comparator.comparingInt(o -> Integer.parseInt(o.getCases())))
+				.sorted(Comparator.comparingInt(o -> Integer.parseInt(o.getCases().replace(",", ""))))
 				.limit(count)
 				.collect(Collectors.toList());
 	}
