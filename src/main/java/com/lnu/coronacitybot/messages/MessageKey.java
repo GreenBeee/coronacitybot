@@ -14,6 +14,8 @@ public enum MessageKey {
 	SUCCESS_SUBSCRIPTION_TYPE("message.subscription.type"),
 	NEED_LOCATION("message.location"),
 	WRONG_LOCATION("message.wrong.location"),
+	HAVE_A_STATISTIC("message.here.statistic"),
+	HAVE_A_COUNTRY_STATISTIC("message.here.country.statistic"),
 	DEFAULT("message.default"),
 	;
 	//@formatter:on
