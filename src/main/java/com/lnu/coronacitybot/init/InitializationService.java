@@ -2,7 +2,8 @@ package com.lnu.coronacitybot.init;
 
 import com.lnu.coronacitybot.entity.enums.Postbacks;
 import com.lnu.coronacitybot.messages.MessageKey;
-import com.lnu.coronacitybot.messages.MessagesHolder;
+import com.lnu.coronacitybot.messages.i18n.MessagesHolder;
+import com.lnu.coronacitybot.messages.i18n.UserLocale;
 import com.lnu.coronacitybot.model.outgoing.DomainWhiteList;
 import com.lnu.coronacitybot.model.outgoing.buttons.GetStartedButton;
 import com.lnu.coronacitybot.model.outgoing.buttons.StartedButtonRequest;
@@ -53,7 +54,7 @@ public class InitializationService {
         if (refreshMenu) {
             List<MenuAction> actions = new ArrayList<>();
             //add menu items
-            actions.add(MenuAction.createPayloadMenuAction("From the beginning",
+            actions.add(MenuAction.createPayloadMenuAction(messagesHolder.getMessage(MessageKey.FROM_BEGINNING, UserLocale.EN_US),
                     Postbacks.INIT));
             ContextMenuSettingRequest request = ContextMenuSettingRequest.getFullRequest(actions);
             restTemplate.postForObject(welcomeMessageUrl + token, request, String.class);

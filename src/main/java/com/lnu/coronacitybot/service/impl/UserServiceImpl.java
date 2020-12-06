@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.Optional;
 import java.util.Set;
@@ -40,6 +41,8 @@ public class UserServiceImpl implements UserService {
             ProfileInfo profileInfo = getProfileInfo(chatId.getId());
             user.setFirstName(profileInfo.getFirstName());
             user.setLastName(profileInfo.getLastName());
+            if (!StringUtils.isEmpty(profileInfo.getLocale()))
+                user.setLocale(profileInfo.getLocale());
             userDAO.save(user);
         }
         return user;

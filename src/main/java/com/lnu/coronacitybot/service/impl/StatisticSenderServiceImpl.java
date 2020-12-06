@@ -4,7 +4,8 @@ import com.lnu.coronacitybot.entity.User;
 import com.lnu.coronacitybot.entity.enums.SubscriptionType;
 import com.lnu.coronacitybot.handler.DefaultHandler;
 import com.lnu.coronacitybot.messages.MessageKey;
-import com.lnu.coronacitybot.messages.MessagesHolder;
+import com.lnu.coronacitybot.messages.i18n.MessagesHolder;
+import com.lnu.coronacitybot.messages.i18n.UserLocale;
 import com.lnu.coronacitybot.model.CountryStatistic;
 import com.lnu.coronacitybot.service.CovidStatisticService;
 import com.lnu.coronacitybot.service.MessagesSender;
@@ -29,21 +30,21 @@ public class StatisticSenderServiceImpl implements StatisticSenderService {
 
 	@Override
 	public void sendUserTopStatistic(User user) {
-		messagesSender.sendSimpleMessage(user, messagesHolder.getMessage(MessageKey.HAVE_A_STATISTIC));
+		messagesSender.sendSimpleMessage(user, messagesHolder.getMessage(MessageKey.HAVE_A_STATISTIC, UserLocale.getLocale(user.getLocale())));
 		Util.sleep(2);
-		List<CountryStatistic> topStatistic = covidStatisticService.getTopStatistic(count);
+		List<CountryStatistic> topStatistic = covidStatisticService.getTopStatistic(UserLocale.getLocale(user.getLocale()), count);
 		for (int i = 0; i < topStatistic.size(); i++) {
-			messagesSender.sendSimpleMessage(user, (i + 1) + ". " + topStatistic.get(i).toString());
+			messagesSender.sendSimpleMessage(user, (i + 1) + ". " + topStatistic.get(i).toString(UserLocale.getLocale(user.getLocale())));
 			Util.sleep(2);
 		}
 	}
 
 	@Override
 	public void sendUserCountryStatistic(User user, String country) {
-		messagesSender.sendSimpleMessage(user, messagesHolder.getMessage(MessageKey.HAVE_A_COUNTRY_STATISTIC));
+		messagesSender.sendSimpleMessage(user, messagesHolder.getMessage(MessageKey.HAVE_A_COUNTRY_STATISTIC, UserLocale.getLocale(user.getLocale())));
 		Util.sleep(2);
-		CountryStatistic countryStatistic = covidStatisticService.getCountryStatisticFromResource(country);
-		messagesSender.sendSimpleMessage(user,  countryStatistic.toString());
+		CountryStatistic countryStatistic = covidStatisticService.getCountryStatisticFromResource(UserLocale.getLocale(user.getLocale()),country);
+		messagesSender.sendSimpleMessage(user,  countryStatistic.toString(UserLocale.getLocale(user.getLocale())));
 		Util.sleep(2);
 	}
 

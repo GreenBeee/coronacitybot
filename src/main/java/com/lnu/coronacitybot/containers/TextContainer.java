@@ -3,6 +3,7 @@ package com.lnu.coronacitybot.containers;
 import com.lnu.coronacitybot.entity.User;
 import com.lnu.coronacitybot.entity.enums.State;
 import com.lnu.coronacitybot.handler.DefaultHandler;
+import com.lnu.coronacitybot.handler.LanguageHandler;
 import com.lnu.coronacitybot.handler.StatisticHandler;
 import com.lnu.coronacitybot.handler.SubscriptionHandler;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ public class TextContainer {
     private final DefaultHandler defaultHandler;
     private final SubscriptionHandler subscriptionHandler;
     private final StatisticHandler statisticHandler;
+    private final LanguageHandler languageHandler;
 
     public void processText(String text, User user) {
         switch (user.getState().split("\\?")[0]){
@@ -32,6 +34,10 @@ public class TextContainer {
             }
             case State.LOCATION_FOR_STATISTIC: {
                 statisticHandler.handleLocationStatistic(text, user);
+                break;
+            }
+            case State.LANGUAGE: {
+                languageHandler.handleTextChangeLang(text, user);
                 break;
             }
             default: {

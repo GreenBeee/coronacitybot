@@ -6,7 +6,7 @@ import java.util.Optional;
 
 
 public enum UserLocale {
-	EN_US("en", "US"), IT_IT("it", "IT");
+	EN_US("en", "US"), UK_UA("uk", "UA");
 	private static final UserLocale DEFAULT = UserLocale.EN_US;
 	private String language;
 	private String country;
@@ -55,4 +55,9 @@ public enum UserLocale {
 		return result;
 	}
 
+
+	@Override
+	public String toString() {
+		return this.language + "_" + this.country;
+	}
 }

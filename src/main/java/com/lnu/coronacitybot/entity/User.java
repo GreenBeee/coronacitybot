@@ -58,4 +58,7 @@ public class User {
 	@Column
 	private String state;
 
+	@Column
+	private String locale;
+
 }

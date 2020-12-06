@@ -4,9 +4,9 @@ import lombok.Getter;
 
 @Getter
 public enum SubscriptionType {
-	TOP("Top countries"),
-	COUNTRY("My country"),
-	FULL("Full statistic");
+	TOP("button.top.country"),
+	COUNTRY("button.my.country"),
+	FULL("button.full.statistics");
 
 	private final String message;
 

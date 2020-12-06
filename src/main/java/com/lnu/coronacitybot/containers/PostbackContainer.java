@@ -6,6 +6,7 @@ import com.lnu.coronacitybot.entity.enums.State;
 import com.lnu.coronacitybot.entity.enums.SubscriptionRate;
 import com.lnu.coronacitybot.entity.enums.SubscriptionType;
 import com.lnu.coronacitybot.handler.DefaultHandler;
+import com.lnu.coronacitybot.handler.LanguageHandler;
 import com.lnu.coronacitybot.handler.StatisticHandler;
 import com.lnu.coronacitybot.handler.SubscriptionHandler;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +20,7 @@ public class PostbackContainer {
 	private final DefaultHandler defaultHandler;
 	private final SubscriptionHandler subscriptionHandler;
 	private final StatisticHandler statisticHandler;
+	private final LanguageHandler languageHandler;
 
 	public void processPostback(String postback, User user) {
 		switch (postback) {
@@ -36,6 +38,18 @@ public class PostbackContainer {
 			}
 			case Postbacks.STATISTICS: {
 				statisticHandler.handleStatistic(user);
+				break;
+			}
+			case Postbacks.CHANGE_LANGUAGE: {
+				languageHandler.changeLanguageSetup(user);
+				break;
+			}
+			case Postbacks.EN_LANG: {
+				languageHandler.changeLanguageEN(user);
+				break;
+			}
+			case Postbacks.UK_LANG: {
+				languageHandler.changeLanguageUK(user);
 				break;
 			}
 			default: {

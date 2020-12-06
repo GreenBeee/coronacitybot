@@ -20,6 +20,11 @@ public class MessagesHolder {
 				new Locale(userLocale.getLanguage(), userLocale.getCountry()));
 	}
 
+	public String getMessage(String key, UserLocale userLocale) {
+		return messageSource.getMessage(key, null,
+				new Locale(userLocale.getLanguage(), userLocale.getCountry()));
+	}
+
 	public String getTemplateMessage(MessageKey key, UserLocale userLocale, Map<String, String> parameters) {
 		String templateMessage = messageSource.getMessage(key.value(), null,
 				new Locale(userLocale.getLanguage(), userLocale.getCountry()));

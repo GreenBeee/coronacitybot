@@ -4,10 +4,10 @@ import lombok.Getter;
 
 @Getter
 public enum SubscriptionRate {
-	S4H("Every 4h"),
-	S8H("Every 8h"),
-	S12H("Every 12h"),
-	S24H("Every 24h"),
+	S4H("button.rate.four"),
+	S8H("button.rate.eight"),
+	S12H("button.rate.twelve"),
+	S24H("button.rate.day"),
 	;
 
 	private final String message;
