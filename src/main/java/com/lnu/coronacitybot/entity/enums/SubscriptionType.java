@@ -6,7 +6,8 @@ import lombok.Getter;
 public enum SubscriptionType {
 	TOP("button.top.country"),
 	COUNTRY("button.my.country"),
-	FULL("button.full.statistics");
+	FULL("button.full.statistics"),
+	ZONE_COUNTRY("button.zone.country");
 
 	private final String message;
 

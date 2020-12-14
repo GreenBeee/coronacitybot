@@ -2,6 +2,8 @@ package com.lnu.coronacitybot.service.impl;
 
 import com.lnu.coronacitybot.messages.i18n.UserLocale;
 import com.lnu.coronacitybot.model.CountryStatistic;
+import com.lnu.coronacitybot.model.CountryZone;
+import com.lnu.coronacitybot.model.CountryZoneStatistic;
 import com.lnu.coronacitybot.service.CovidStatisticService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -29,8 +31,12 @@ import java.util.stream.Collectors;
 public class CovidStatisticServiceImpl implements CovidStatisticService {
 	@Value("${wiki.covid.url}")
 	private String wikiPageUrl;
+	@Value("${wiki.covid.zone.url}")
+	private String wikiZonePageUrl;
 
-	private Map<UserLocale, Map<String, CountryStatistic>> allCountries;
+	private Map<UserLocale, Map<String, CountryStatistic>> allCountries = new HashMap<>();
+
+	private List<CountryZoneStatistic> allCountriesZone = new ArrayList<>();
 
 	private Map<String, String> UA_COUNTRIES = new HashMap<>();
 
@@ -154,6 +160,7 @@ public class CovidStatisticServiceImpl implements CovidStatisticService {
 		UA_COUNTRIES.put("venezuela", "венесуела");
 		UA_COUNTRIES.put("viet nam", "в'єтнам");
 		this.allCountries = updateStatistic();
+		this.allCountriesZone = updateAllCountriesZoneStatistic();
 	}
 
 	@Override
@@ -177,6 +184,28 @@ public class CovidStatisticServiceImpl implements CovidStatisticService {
 	@Override
 	public void updateAllCountriesStatistic() {
 		this.allCountries = updateStatistic();
+		this.allCountriesZone = updateAllCountriesZoneStatistic();
+	}
+
+	@SneakyThrows
+	@Override
+	public List<CountryZoneStatistic> updateAllCountriesZoneStatistic() {
+		Document doc = Jsoup.connect(wikiZonePageUrl).get();
+		Elements table = doc.select("#tablepress-11");
+		return table.select("tbody tr").stream().map(x -> {
+			Elements column = x.select("td");
+			String html = column.get(0).html();
+			String color = html.substring(html.indexOf("color"), html.indexOf("color") + 15).split(":")[1].trim();
+			return new CountryZoneStatistic(column.get(1).text().toLowerCase(),
+					column.get(0).text().toLowerCase(),
+					"#ff0000;".equalsIgnoreCase(color) ? CountryZone.RED : CountryZone.GREEN);
+		}).collect(Collectors.toList());
+	}
+
+	@Override
+	public Optional<CountryZoneStatistic> getCountryZoneStatistic(String country) {
+		return this.allCountriesZone.stream().filter(x -> country.equalsIgnoreCase(x.getCountryNameEn())
+				|| country.equalsIgnoreCase(x.getCountryNameUa())).findFirst();
 	}
 
 	@Override

@@ -21,6 +21,8 @@ public enum MessageKey {
 	CHANGE_LANG_FINISHED("message.change.lang.finished"),
 	CHANGE_LANG("message.change.lang"),
 	CHANGE_LANG_WRONG("message.change.lang.wrong"),
+	ZONE_COUNTRY_RED("message.zone.red.country"),
+	ZONE_COUNTRY_GREEN("message.zone.green.country"),
 
 
 	BUTTON_UNSUBSCRIBE("button.unsubscribe"),

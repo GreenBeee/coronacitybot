@@ -11,5 +11,7 @@ public interface StatisticSenderService {
 
 	void sendUserFullStatistic(User user, String country);
 
+	void sendUserZoneStatistic(User user, String country);
+
 	void sendUserStatisticWithSubscriptionType(User user, SubscriptionType subscriptionType, String country);
 }
